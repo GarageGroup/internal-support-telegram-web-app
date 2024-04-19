@@ -6,6 +6,7 @@ import './UpdateSupportForm.css';
 
 const UpdateSupportForm = () => {
 
+    const maxTitleLength = 200;
     const { tg } = useTelegram();
     const [searchParams] = useSearchParams();
     const [support, setSupport] = useState(undefined);
@@ -50,7 +51,25 @@ const UpdateSupportForm = () => {
         }
     }, [tg, support, description, title, caseType, priorityType]);
 
+    const validation = useCallback(() => {
+        if (!title){
+            tg.showAlert("Заголовок не может быть пустым")
+            return false;
+        }
+
+        if (title.length > maxTitleLength){
+            tg.showAlert(`Длина заголовка не может быть больше ${maxTitleLength}`)
+            return false;
+        }
+
+        return true;
+    }, [tg, title])
+
     const onEditCustomerHandler = useCallback(() => {
+        if (!validation()){
+            return;
+        }
+
         let data = {
             title: title,
             customer: null,
@@ -61,9 +80,13 @@ const UpdateSupportForm = () => {
             description: description
         };
         tg.sendData(JSON.stringify(data));
-    }, [tg, title, caseType, priorityType, owner, description]);
+    }, [tg, title, caseType, priorityType, owner, description, validation]);
 
     const onEditContactHandler = useCallback(() => {
+        if (!validation()){
+            return;
+        }
+
         let data = {
             title: title,
             customer: customer,
@@ -74,9 +97,13 @@ const UpdateSupportForm = () => {
             description: description
         };
         tg.sendData(JSON.stringify(data));
-    }, [tg, title, customer, caseType, priorityType, owner, description]);
+    }, [tg, title, customer, caseType, priorityType, owner, description, validation]);
 
     const onEditOwnerHandler = useCallback(() => {
+        if (!validation()){
+            return;
+        }
+
         let data = {
             title: title,
             customer: customer,
@@ -87,9 +114,13 @@ const UpdateSupportForm = () => {
             description: description
         };
         tg.sendData(JSON.stringify(data));
-    }, [tg, title, customer, contact, caseType, priorityType, description]);
+    }, [tg, title, customer, contact, caseType, priorityType, description, validation]);
 
     const onSendData = useCallback(() => {
+        if (!validation()){
+            return;
+        }
+
         let data = {
             title: title,
             customer: customer,
@@ -100,7 +131,7 @@ const UpdateSupportForm = () => {
             description: description
         };
         tg.sendData(JSON.stringify(data));
-    }, [tg, title, customer, contact, caseType, priorityType, owner, description]);
+    }, [tg, title, customer, contact, caseType, priorityType, owner, description, validation]);
 
     useEffect(() => {
         tg.onEvent('mainButtonClicked', onSendData);
