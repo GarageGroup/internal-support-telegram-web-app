@@ -40,7 +40,74 @@ const UpdateSupportForm = () => {
             const decodedData = inflate(binaryData, { to: 'string' });
             return JSON.parse(decodedData);
         }
-    }, [searchParams])
+    }, [searchParams]);
+
+    useEffect(() => {
+        if (support && support.description === description && support.title === title && support.caseTypeCode === caseType && support.priorityCode === priorityType){
+            tg.MainButton.hide();
+        }else{
+            tg.MainButton.show();
+        }
+    }, [tg, support, description, title, caseType, priorityType]);
+
+    const onEditCustomerHandler = useCallback(() => {
+        let data = {
+            title: title,
+            customer: null,
+            contact: null,
+            caseTypeCode: caseType,
+            priorityCode: priorityType,
+            owner: owner,
+            description: description
+        };
+        tg.sendData(JSON.stringify(data));
+    }, [tg, title, caseType, priorityType, owner, description]);
+
+    const onEditContactHandler = useCallback(() => {
+        let data = {
+            title: title,
+            customer: customer,
+            contact: null,
+            caseTypeCode: caseType,
+            priorityCode: priorityType,
+            owner: owner,
+            description: description
+        };
+        tg.sendData(JSON.stringify(data));
+    }, [tg, title, customer, caseType, priorityType, owner, description]);
+
+    const onEditOwnerHandler = useCallback(() => {
+        let data = {
+            title: title,
+            customer: customer,
+            contact: contact,
+            caseTypeCode: caseType,
+            priorityCode: priorityType,
+            owner: null,
+            description: description
+        };
+        tg.sendData(JSON.stringify(data));
+    }, [tg, title, customer, contact, caseType, priorityType, description]);
+
+    const onSendData = useCallback(() => {
+        let data = {
+            title: title,
+            customer: customer,
+            contact: contact,
+            caseTypeCode: caseType,
+            priorityCode: priorityType,
+            owner: owner,
+            description: description
+        };
+        tg.sendData(JSON.stringify(data));
+    }, [tg, title, customer, contact, caseType, priorityType, owner, description]);
+
+    useEffect(() => {
+        tg.onEvent('mainButtonClicked', onSendData);
+        return () => {
+            tg.offEvent('mainButtonClicked', onSendData);
+        };
+    }, [tg, onSendData]);
 
     return(
         <div className='updateSupportForm'>
@@ -50,7 +117,8 @@ const UpdateSupportForm = () => {
                     className='update-support-form-control'
                     type='text'
                     placeholder='Заголовок'
-                    value={title} />
+                    value={title} 
+                    onChange={(e) => setTitle(e.target.value)}/>
             </div>
             <div className='update-support-form-item'>
                 <p>Клиент</p>
@@ -64,7 +132,7 @@ const UpdateSupportForm = () => {
                      <button
                         type='button'
                         title='Редактировать клиента'
-                    // onClick={}
+                        onClick={onEditCustomerHandler}
                     >
                     <i className="fa-solid fa-pen-to-square fa-2x"></i>
                     </button>
@@ -82,7 +150,7 @@ const UpdateSupportForm = () => {
                     <button
                         type='button'
                         title='Редактировать контакт'
-                    // onClick={}
+                        onClick={onEditContactHandler}
                     >
                     <i className="fa-solid fa-pen-to-square fa-2x"></i>
                     </button>
@@ -90,18 +158,18 @@ const UpdateSupportForm = () => {
             </div>
             <div className='update-support-form-item'>
                 <p>Тип обращения</p>
-                <select className='update-support-form-control' name="selectCaseType" value={caseType}>
-                    <option value={1}>Вопрос</option>
-                    <option value={2}>Пролема</option>
-                    <option value={3}>Запрос</option>
+                <select className='update-support-form-control' name="selectCaseType" value={parseInt(caseType)} onChange={(e) => setCaseType(e.target.value)}>
+                    <option value={0}>Вопрос</option>
+                    <option value={1}>Пролема</option>
+                    <option value={2}>Запрос</option>
                 </select>
             </div>
             <div className='update-support-form-item'>
                 <p>Приоритет</p>
-                <select className='update-support-form-control' name="selectPriorityType" value={priorityType}>
-                    <option value={1}>Высокий</option>
-                    <option value={2}>Обычный</option>
-                    <option value={3}>Низкий</option>
+                <select className='update-support-form-control' name="selectPriorityType" value={parseInt(priorityType)} onChange={(e) => setPriorityType(e.target.value)}>
+                    <option value={0}>Высокий</option>
+                    <option value={1}>Обычный</option>
+                    <option value={2}>Низкий</option>
                 </select>
             </div>
             <div className='update-support-form-item'>
@@ -116,7 +184,7 @@ const UpdateSupportForm = () => {
                     <button
                         type='button'
                         title='Редактировать ответственного'
-                    // onClick={}
+                        onClick={onEditOwnerHandler}
                     >
                     <i className="fa-solid fa-pen-to-square fa-2x"></i>
                     </button>
@@ -129,7 +197,7 @@ const UpdateSupportForm = () => {
                     placeholder='Описание'
                     rows='7'
                     value={description}
-                    // onChange={(e) => setDescription(e.target.value)}
+                    onChange={(e) => setDescription(e.target.value)}
                 ></textarea>
             </div>
         </div>
