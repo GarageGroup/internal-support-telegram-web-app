@@ -43,7 +43,7 @@ const UpdateSupportForm = () => {
     }, [searchParams]);
 
     useEffect(() => {
-        if (support && support.description === description && support.title === title && support.caseTypeCode === caseType && support.priorityCode === priorityType){
+        if (support && support.description === description && support.title === title && parseInt(support.caseTypeCode) === parseInt(caseType) && parseInt(support.priorityCode) === parseInt(priorityType)){
             tg.MainButton.hide();
         }else{
             tg.MainButton.show();
