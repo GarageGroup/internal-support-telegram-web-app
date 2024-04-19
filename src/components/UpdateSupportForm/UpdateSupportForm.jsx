@@ -1,10 +1,46 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useTelegram } from '../../hooks/useTelegram';
+import { inflate } from 'pako';
+import { useSearchParams } from 'react-router-dom';
 import './UpdateSupportForm.css';
 
 const UpdateSupportForm = () => {
 
     const { tg } = useTelegram();
+    const [searchParams] = useSearchParams();
+    const [support, setSupport] = useState(undefined);
+    const [title, setTitle] = useState(undefined);
+    const [customer, setCustomer] = useState(undefined);
+    const [contact, setContact] = useState(undefined);
+    const [caseType, setCaseType] = useState(undefined);
+    const [priorityType, setPriorityType] = useState(undefined);
+    const [owner, setOwnert] = useState(undefined);
+    const [description, setDescription] = useState(undefined);
+
+    useEffect(() => {
+        tg.ready();
+        tg.MainButton.setParams({
+            text: 'Сохранить'
+        });
+    }, [tg]);
+
+    useEffect(() => {
+        const support = decodeAndDecompressJson(searchParams.get("data"));
+        setSupport(support);
+        setTitle(support.title);
+        setCustomer(support.customer);
+        setContact(support.contact);
+        setCaseType(support.caseTypeCode);
+        setPriorityType(support.priorityCode);
+        setOwnert(support.owner);
+        setDescription(support.description);
+
+        function decodeAndDecompressJson(encodedData) {
+            const binaryData = new Uint8Array(window.atob(encodedData).split('').map(c => c.charCodeAt(0)));
+            const decodedData = inflate(binaryData, { to: 'string' });
+            return JSON.parse(decodedData);
+        }
+    }, [searchParams])
 
     return(
         <div className='updateSupportForm'>
@@ -13,7 +49,8 @@ const UpdateSupportForm = () => {
                 <input
                     className='update-support-form-control'
                     type='text'
-                    placeholder='Заголовок' />
+                    placeholder='Заголовок'
+                    value={title} />
             </div>
             <div className='update-support-form-item'>
                 <p>Клиент</p>
@@ -21,8 +58,8 @@ const UpdateSupportForm = () => {
                     <input
                          className='update-support-form-control'
                           type="text"
-                          // value={}
-                          // title={}
+                          value={customer && customer.title}
+                          title={customer && customer.title}
                           readOnly={true} />
                      <button
                         type='button'
@@ -39,8 +76,8 @@ const UpdateSupportForm = () => {
                     <input
                         className='update-support-form-control'
                         type="text"
-                          // value={}
-                          // title={}
+                          value={contact && contact.fullName}
+                          title={contact && contact.fullName}
                         readOnly={true} />
                     <button
                         type='button'
@@ -53,18 +90,18 @@ const UpdateSupportForm = () => {
             </div>
             <div className='update-support-form-item'>
                 <p>Тип обращения</p>
-                <select className='update-support-form-control' name="select">
-                    <option value="value1">Значение 1</option>
-                    <option value="value2">Значение 2</option>
-                    <option value="value3">Значение 3</option>
+                <select className='update-support-form-control' name="selectCaseType" value={caseType}>
+                    <option value={1}>Вопрос</option>
+                    <option value={2}>Пролема</option>
+                    <option value={3}>Запрос</option>
                 </select>
             </div>
             <div className='update-support-form-item'>
                 <p>Приоритет</p>
-                <select className='update-support-form-control' name="select">
-                    <option value="value1">Значение 1</option>
-                    <option value="value2">Значение 2</option>
-                    <option value="value3">Значение 3</option>
+                <select className='update-support-form-control' name="selectPriorityType" value={priorityType}>
+                    <option value={1}>Высокий</option>
+                    <option value={2}>Обычный</option>
+                    <option value={3}>Низкий</option>
                 </select>
             </div>
             <div className='update-support-form-item'>
@@ -73,8 +110,8 @@ const UpdateSupportForm = () => {
                     <input
                         className='update-support-form-control'
                         type="text"
-                          // value={}
-                          // title={}
+                        value={owner && owner.fullName}
+                        title={owner && owner.fullName}
                         readOnly={true} />
                     <button
                         type='button'
@@ -90,8 +127,8 @@ const UpdateSupportForm = () => {
                 <textarea
                     className='update-support-form-text'
                     placeholder='Описание'
-                    rows='5'
-                    // value={description}
+                    rows='7'
+                    value={description}
                     // onChange={(e) => setDescription(e.target.value)}
                 ></textarea>
             </div>
