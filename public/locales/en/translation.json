@@ -1,0 +1,23 @@
+{
+    "title": "Title",
+    "save": "Save",
+    "titleEmpty": "Title cannot be empty",
+    "titleLength": "Title length cannot be more than {{maxTitleLength}}",
+    "customer": "Customer",
+    "editCustomer": "Edit customer",
+    "contact": "Contact",
+    "editContact": "Edit contact",
+    "caseType": "Case Type",
+    "question": "Question",
+    "problem": "Problem",
+    "request": "Request",
+    "priority": "Priority",
+    "high": "High",
+    "normal": "Normal",
+    "low": "Low",
+    "owner": "Owner",
+    "editOwner": "Edit owner",
+    "description": "Description",
+    "attachments": "Attachments",
+    "noAttachments": "No attachments"
+}

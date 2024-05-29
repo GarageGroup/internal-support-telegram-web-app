@@ -1,0 +1,23 @@
+{
+    "title": "Заголовок",
+    "save": "Сохранить",
+    "titleEmpty": "Заголовок не может быть пустым",
+    "titleLength": "Длина заголовка не может быть больше {{maxTitleLength}}",
+    "customer": "Клиент",
+    "editCustomer": "Редактировать клиента",
+    "contact": "Контакт",
+    "editContact": "Редактировать контакт",
+    "caseType": "Тип обращения",
+    "question": "Вопрос",
+    "problem": "Проблема",
+    "request": "Запрос",
+    "priority": "Приоритет",
+    "high": "Высокий",
+    "normal": "Обычный",
+    "low": "Низкий",
+    "owner": "Ответственный",
+    "editOwner": "Редактировать ответственного",
+    "description": "Описание",
+    "attachments": "Вложения",
+    "noAttachments": "Нет вложений"
+}
