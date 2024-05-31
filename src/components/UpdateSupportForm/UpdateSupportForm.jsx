@@ -191,6 +191,10 @@ const UpdateSupportForm = () => {
                 backgroundColor: '#70939e',
                 color: 'var(--tg-theme-text-color)'
             }
+        }),
+        input: (provided) => ({
+            ...provided,
+            color: 'var(--tg-theme-text-color)' 
         })
     };
 
