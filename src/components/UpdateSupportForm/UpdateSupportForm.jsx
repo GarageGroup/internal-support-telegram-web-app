@@ -188,7 +188,7 @@ const UpdateSupportForm = () => {
             color: 'var(--tg-theme-text-color)',
             backgroundColor: state.isSelected ? 'var(--tg-theme-button-color)' : 'var(--tg-theme-secondary-bg-color)',
             '&:hover': {
-                backgroundColor: 'cyan',
+                backgroundColor: '#a7c7d1',
                 color: 'var(--tg-theme-text-color)'
             }
         })
