@@ -162,26 +162,21 @@ const UpdateSupportForm = () => {
     const customSelectStyles = {
         control: (provided) => ({
             ...provided,
-            borderColor: 'black',
-            boxShadow: 'none',
-            '&:hover': {
-                borderColor: 'black'
-            },
             fontFamily: 'Arial',
             fontSize: '16px',
-            color: 'inherit'
+            color: 'var(--tg-theme-text-color)'
         }),
         menu: (provided) => ({
             ...provided,
             fontFamily: 'Arial',
             fontSize: '16px',
-            color: 'inherit'
+            color: 'var(--tg-theme-text-color)'
         }),
         singleValue: (provided) => ({
             ...provided,
             fontFamily: 'Arial',
             fontSize: '16px',
-            color: 'inherit'
+            color: 'var(--tg-theme-text-color)'
         })
     };
 
