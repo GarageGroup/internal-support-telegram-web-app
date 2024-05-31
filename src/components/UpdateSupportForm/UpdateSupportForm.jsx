@@ -180,6 +180,17 @@ const UpdateSupportForm = () => {
             fontSize: '16px',
             color: 'var(--tg-theme-text-color)',
             background: 'var(--tg-theme-secondary-bg-color)'
+        }),
+        option: (provided, state) => ({
+            ...provided,
+            fontFamily: 'Arial',
+            fontSize: '16px',
+            color: 'var(--tg-theme-text-color)',
+            backgroundColor: state.isSelected ? 'var(--tg-theme-button-color)' : 'var(--tg-theme-secondary-bg-color)',
+            '&:hover': {
+                backgroundColor: 'cyan',
+                color: 'var(--tg-theme-text-color)'
+            }
         })
     };
 
