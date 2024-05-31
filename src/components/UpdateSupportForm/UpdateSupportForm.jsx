@@ -164,19 +164,22 @@ const UpdateSupportForm = () => {
             ...provided,
             fontFamily: 'Arial',
             fontSize: '16px',
-            color: 'var(--tg-theme-text-color)'
+            color: 'var(--tg-theme-text-color)',
+            background: 'var(--tg-theme-secondary-bg-color)'
         }),
         menu: (provided) => ({
             ...provided,
             fontFamily: 'Arial',
             fontSize: '16px',
-            color: 'var(--tg-theme-text-color)'
+            color: 'var(--tg-theme-text-color)',
+            background: 'var(--tg-theme-secondary-bg-color)'
         }),
         singleValue: (provided) => ({
             ...provided,
             fontFamily: 'Arial',
             fontSize: '16px',
-            color: 'var(--tg-theme-text-color)'
+            color: 'var(--tg-theme-text-color)',
+            background: 'var(--tg-theme-secondary-bg-color)'
         })
     };
 
