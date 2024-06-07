@@ -1,6 +1,6 @@
 {
     "title": "Title",
-    "save": "Save",
+    "create": "Create",
     "titleEmpty": "Title cannot be empty",
     "titleLength": "Title length cannot be more than {{maxTitleLength}}",
     "customer": "Customer",
