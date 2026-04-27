@@ -160,46 +160,94 @@ const UpdateSupportForm = () => {
     };
 
     const customSelectStyles = {
-        control: (provided) => ({
+        control: (provided, state) => ({
             ...provided,
-            fontFamily: 'Arial',
-            fontSize: '16px',
-            color: 'var(--tg-theme-text-color)',
-            background: 'var(--tg-theme-secondary-bg-color)'
+            minHeight: '2.85rem',
+            borderColor: state.isFocused ? 'var(--support-accent)' : 'var(--support-border)',
+            borderRadius: '4px',
+            boxShadow: state.isFocused ? '0 0 0 1px var(--support-accent)' : 'none',
+            fontFamily: 'inherit',
+            fontSize: '1rem',
+            color: 'var(--support-text)',
+            background: 'var(--support-surface)',
+            cursor: 'pointer',
+            transition: 'border-color 120ms ease, box-shadow 120ms ease',
+            '&:hover': {
+                borderColor: state.isFocused ? 'var(--support-accent)' : 'var(--support-border-strong)'
+            }
+        }),
+        valueContainer: (provided) => ({
+            ...provided,
+            minHeight: '2.85rem',
+            padding: '0 0.75rem'
+        }),
+        indicatorsContainer: (provided) => ({
+            ...provided,
+            minHeight: '2.85rem'
+        }),
+        dropdownIndicator: (provided) => ({
+            ...provided,
+            color: 'var(--support-muted)',
+            padding: '0 0.75rem',
+            '&:hover': {
+                color: 'var(--support-accent)'
+            }
+        }),
+        indicatorSeparator: (provided) => ({
+            ...provided,
+            backgroundColor: 'var(--support-border)'
         }),
         menu: (provided) => ({
             ...provided,
-            fontFamily: 'Arial',
-            fontSize: '16px',
-            color: 'var(--tg-theme-text-color)',
-            background: 'var(--tg-theme-secondary-bg-color)'
+            zIndex: 10,
+            marginTop: '0.25rem',
+            border: '1px solid var(--support-border)',
+            borderRadius: '4px',
+            overflow: 'hidden',
+            boxShadow: '0 6px 18px rgba(0, 0, 0, 0.18)',
+            fontFamily: 'inherit',
+            fontSize: '1rem',
+            color: 'var(--support-text)',
+            background: 'var(--support-surface)'
+        }),
+        menuList: (provided) => ({
+            ...provided,
+            padding: 0
         }),
         singleValue: (provided) => ({
             ...provided,
-            fontFamily: 'Arial',
-            fontSize: '16px',
-            color: 'var(--tg-theme-text-color)',
-            background: 'var(--tg-theme-secondary-bg-color)'
+            color: 'var(--support-text)'
+        }),
+        placeholder: (provided) => ({
+            ...provided,
+            color: 'var(--support-muted)'
         }),
         option: (provided, state) => ({
             ...provided,
-            fontFamily: 'Arial',
-            fontSize: '16px',
-            color: 'var(--tg-theme-text-color)',
-            backgroundColor: state.isSelected ? 'var(--tg-theme-button-color)' : 'var(--tg-theme-secondary-bg-color)',
-            '&:hover': {
-                backgroundColor: '#70939e',
-                color: 'var(--tg-theme-text-color)'
+            padding: '0.75rem',
+            cursor: 'pointer',
+            color: state.isSelected ? 'var(--support-on-accent)' : 'var(--support-text)',
+            backgroundColor: state.isSelected
+                ? 'var(--support-accent)'
+                : state.isFocused
+                    ? 'var(--support-accent-soft)'
+                    : 'var(--support-surface)',
+            '&:active': {
+                backgroundColor: 'var(--support-accent-soft)'
             }
         }),
         input: (provided) => ({
             ...provided,
-            color: 'var(--tg-theme-text-color)' 
+            color: 'var(--support-text)'
         })
     };
 
     return (
         <div className='updateSupportForm'>
+            <div className='update-support-form-logo'>
+                <img src={`${process.env.PUBLIC_URL}/logo.svg`} alt='' />
+                <span>Support</span>
+            </div>
             <div className='update-support-form-item'>
                 <p>{translation('title')}</p>
                 <textarea
