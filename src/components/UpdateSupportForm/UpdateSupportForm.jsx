@@ -17,6 +17,8 @@ const UpdateSupportForm = () => {
     const [contact, setContact] = useState(undefined);
     const [caseType, setCaseType] = useState(undefined);
     const [priorityType, setPriorityType] = useState(undefined);
+    const [project, setProject] = useState(undefined);
+    const [projects, setProjects] = useState(undefined);
     const [owner, setOwner] = useState(undefined);
     const [description, setDescription] = useState(undefined);
     const [fileNames, setFileNames] = useState(undefined);
@@ -40,6 +42,8 @@ const UpdateSupportForm = () => {
         setContact(support.contact);
         setCaseType(support.caseTypeCode);
         setPriorityType(support.priorityCode);
+        setProject(support.project);
+        setProjects(support.projects);
         setOwner(support.owner);
         setDescription(support.description);
         setFileNames(support.fileNames);
@@ -53,12 +57,12 @@ const UpdateSupportForm = () => {
     }, [searchParams, i18n]);
 
     useEffect(() => {
-        if (support && support.description === description && support.owner.id === owner.id && support.title === title && parseInt(support.caseTypeCode) === parseInt(caseType) && parseInt(support.priorityCode) === parseInt(priorityType)) {
+        if (support && support.description === description && support.owner?.id === owner?.id && support.project?.id === project?.id && support.title === title && parseInt(support.caseTypeCode) === parseInt(caseType) && parseInt(support.priorityCode) === parseInt(priorityType)) {
             tg.MainButton.hide();
         } else {
             tg.MainButton.show();
         }
-    }, [tg, support, description, owner, title, caseType, priorityType]);
+    }, [tg, support, description, owner, project, title, caseType, priorityType]);
 
     const validation = useCallback(() => {
         if (!title) {
@@ -83,13 +87,15 @@ const UpdateSupportForm = () => {
             title: title,
             customer: null,
             contact: null,
+            project: project,
+            projects: projects,
             caseTypeCode: caseType,
             priorityCode: priorityType,
             owner: owner,
             description: description
         };
         tg.sendData(JSON.stringify(data));
-    }, [tg, title, caseType, priorityType, owner, description, validation]);
+    }, [tg, title, caseType, priorityType, project, projects, owner, description, validation]);
 
     const onEditContactHandler = useCallback(() => {
         if (!validation()) {
@@ -100,13 +106,15 @@ const UpdateSupportForm = () => {
             title: title,
             customer: customer,
             contact: null,
+            project: project,
+            projects: projects,
             caseTypeCode: caseType,
             priorityCode: priorityType,
             owner: owner,
             description: description
         };
         tg.sendData(JSON.stringify(data));
-    }, [tg, title, customer, caseType, priorityType, owner, description, validation]);
+    }, [tg, title, customer, caseType, priorityType, project, projects, owner, description, validation]);
 
     const onSendData = useCallback(() => {
         if (!validation()) {
@@ -117,13 +125,15 @@ const UpdateSupportForm = () => {
             title: title,
             customer: customer,
             contact: contact,
+            project: project,
+            projects: projects,
             caseTypeCode: caseType,
             priorityCode: priorityType,
             owner: owner,
             description: description
         };
         tg.sendData(JSON.stringify(data));
-    }, [tg, title, customer, contact, caseType, priorityType, owner, description, validation]);
+    }, [tg, title, customer, contact, caseType, priorityType, project, projects, owner, description, validation]);
 
     useEffect(() => {
         tg.onEvent('mainButtonClicked', onSendData);
@@ -148,6 +158,13 @@ const UpdateSupportForm = () => {
         setOwner({
             id: selectedOption.value,
             fullName: selectedOption.label
+        });
+    };
+
+    const handleProjectChange = (selectedOption) => {
+        setProject(selectedOption && {
+            id: selectedOption.value,
+            name: selectedOption.label
         });
     };
     
@@ -293,6 +310,18 @@ const UpdateSupportForm = () => {
                         <i className="fa-solid fa-pen-to-square fa-2x"></i>
                     </button>
                 </div>
+            </div>
+            <div className='update-support-form-item'>
+                <p>{translation('project')}</p>
+                <Select
+                    className='update-support-form-select-control'
+                    value={project && { value: project.id, label: project.name }}
+                    onChange={handleProjectChange}
+                    options={projects && projects.map(project => ({ value: project.id, label: project.name }))}
+                    isSearchable={true}
+                    isClearable={true}
+                    styles={customSelectStyles}
+                />
             </div>
             <div className='update-support-form-item'>
                 <p>{translation('caseType')}</p>

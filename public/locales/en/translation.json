@@ -15,8 +15,8 @@
     "high": "High",
     "normal": "Normal",
     "low": "Low",
+    "project": "Project",
     "owner": "Owner",
-    "editOwner": "Edit owner",
     "description": "Description",
     "attachments": "Attachments",
     "noAttachments": "No attachments"
