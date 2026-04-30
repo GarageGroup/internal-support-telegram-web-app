@@ -1,10 +1,52 @@
-*{
-  margin: 0;
-  padding: 0;
+* {
   box-sizing: border-box;
 }
 
-body{
-  background: var(--tg-theme-bg-color);
-  color: var(--tg-theme-text-color);
+:root {
+  --support-bg: var(--tg-theme-bg-color, #ffffff);
+  --support-surface: var(--tg-theme-secondary-bg-color, #ffffff);
+  --support-text: var(--tg-theme-text-color, #212121);
+  --support-muted: var(--tg-theme-hint-color, #757575);
+  --support-border: rgba(127, 127, 127, 0.38);
+  --support-border-strong: rgba(127, 127, 127, 0.58);
+  --support-accent: #673ab7;
+  --support-on-accent: #ffffff;
+  --support-accent-soft: rgba(103, 58, 183, 0.12);
+}
+
+html {
+  min-height: 100%;
+  background: var(--support-bg);
+  font-size: 13px;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--support-bg);
+  color: var(--support-text);
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+.App {
+  min-height: 100vh;
+  background: var(--support-bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --support-bg: var(--tg-theme-bg-color, #121212);
+    --support-surface: var(--tg-theme-secondary-bg-color, #1e1e1e);
+    --support-text: var(--tg-theme-text-color, #ffffff);
+    --support-muted: var(--tg-theme-hint-color, #a0a0a0);
+    --support-accent: #ce93d8;
+    --support-on-accent: #121212;
+    --support-accent-soft: rgba(206, 147, 216, 0.16);
+  }
 }

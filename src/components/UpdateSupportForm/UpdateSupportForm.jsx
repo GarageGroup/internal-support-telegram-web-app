@@ -17,6 +17,8 @@ const UpdateSupportForm = () => {
     const [contact, setContact] = useState(undefined);
     const [caseType, setCaseType] = useState(undefined);
     const [priorityType, setPriorityType] = useState(undefined);
+    const [project, setProject] = useState(undefined);
+    const [projects, setProjects] = useState(undefined);
     const [owner, setOwner] = useState(undefined);
     const [description, setDescription] = useState(undefined);
     const [fileNames, setFileNames] = useState(undefined);
@@ -40,6 +42,8 @@ const UpdateSupportForm = () => {
         setContact(support.contact);
         setCaseType(support.caseTypeCode);
         setPriorityType(support.priorityCode);
+        setProject(support.project);
+        setProjects(support.projects);
         setOwner(support.owner);
         setDescription(support.description);
         setFileNames(support.fileNames);
@@ -53,12 +57,12 @@ const UpdateSupportForm = () => {
     }, [searchParams, i18n]);
 
     useEffect(() => {
-        if (support && support.description === description && support.owner.id === owner.id && support.title === title && parseInt(support.caseTypeCode) === parseInt(caseType) && parseInt(support.priorityCode) === parseInt(priorityType)) {
+        if (support && support.description === description && support.owner?.id === owner?.id && support.project?.id === project?.id && support.title === title && parseInt(support.caseTypeCode) === parseInt(caseType) && parseInt(support.priorityCode) === parseInt(priorityType)) {
             tg.MainButton.hide();
         } else {
             tg.MainButton.show();
         }
-    }, [tg, support, description, owner, title, caseType, priorityType]);
+    }, [tg, support, description, owner, project, title, caseType, priorityType]);
 
     const validation = useCallback(() => {
         if (!title) {
@@ -83,13 +87,15 @@ const UpdateSupportForm = () => {
             title: title,
             customer: null,
             contact: null,
+            project: project,
+            projects: projects,
             caseTypeCode: caseType,
             priorityCode: priorityType,
             owner: owner,
             description: description
         };
         tg.sendData(JSON.stringify(data));
-    }, [tg, title, caseType, priorityType, owner, description, validation]);
+    }, [tg, title, caseType, priorityType, project, projects, owner, description, validation]);
 
     const onEditContactHandler = useCallback(() => {
         if (!validation()) {
@@ -100,13 +106,15 @@ const UpdateSupportForm = () => {
             title: title,
             customer: customer,
             contact: null,
+            project: project,
+            projects: projects,
             caseTypeCode: caseType,
             priorityCode: priorityType,
             owner: owner,
             description: description
         };
         tg.sendData(JSON.stringify(data));
-    }, [tg, title, customer, caseType, priorityType, owner, description, validation]);
+    }, [tg, title, customer, caseType, priorityType, project, projects, owner, description, validation]);
 
     const onSendData = useCallback(() => {
         if (!validation()) {
@@ -117,13 +125,15 @@ const UpdateSupportForm = () => {
             title: title,
             customer: customer,
             contact: contact,
+            project: project,
+            projects: projects,
             caseTypeCode: caseType,
             priorityCode: priorityType,
             owner: owner,
             description: description
         };
         tg.sendData(JSON.stringify(data));
-    }, [tg, title, customer, contact, caseType, priorityType, owner, description, validation]);
+    }, [tg, title, customer, contact, caseType, priorityType, project, projects, owner, description, validation]);
 
     useEffect(() => {
         tg.onEvent('mainButtonClicked', onSendData);
@@ -150,6 +160,13 @@ const UpdateSupportForm = () => {
             fullName: selectedOption.label
         });
     };
+
+    const handleProjectChange = (selectedOption) => {
+        setProject(selectedOption && {
+            id: selectedOption.value,
+            name: selectedOption.label
+        });
+    };
     
     const handleCaseTypeChange = (selectedOption) => {
         setCaseType(selectedOption.value);
@@ -160,46 +177,94 @@ const UpdateSupportForm = () => {
     };
 
     const customSelectStyles = {
-        control: (provided) => ({
+        control: (provided, state) => ({
             ...provided,
-            fontFamily: 'Arial',
-            fontSize: '16px',
-            color: 'var(--tg-theme-text-color)',
-            background: 'var(--tg-theme-secondary-bg-color)'
+            minHeight: '2.85rem',
+            borderColor: state.isFocused ? 'var(--support-accent)' : 'var(--support-border)',
+            borderRadius: '4px',
+            boxShadow: state.isFocused ? '0 0 0 1px var(--support-accent)' : 'none',
+            fontFamily: 'inherit',
+            fontSize: '1rem',
+            color: 'var(--support-text)',
+            background: 'var(--support-surface)',
+            cursor: 'pointer',
+            transition: 'border-color 120ms ease, box-shadow 120ms ease',
+            '&:hover': {
+                borderColor: state.isFocused ? 'var(--support-accent)' : 'var(--support-border-strong)'
+            }
+        }),
+        valueContainer: (provided) => ({
+            ...provided,
+            minHeight: '2.85rem',
+            padding: '0 0.75rem'
+        }),
+        indicatorsContainer: (provided) => ({
+            ...provided,
+            minHeight: '2.85rem'
+        }),
+        dropdownIndicator: (provided) => ({
+            ...provided,
+            color: 'var(--support-muted)',
+            padding: '0 0.75rem',
+            '&:hover': {
+                color: 'var(--support-accent)'
+            }
+        }),
+        indicatorSeparator: (provided) => ({
+            ...provided,
+            backgroundColor: 'var(--support-border)'
         }),
         menu: (provided) => ({
             ...provided,
-            fontFamily: 'Arial',
-            fontSize: '16px',
-            color: 'var(--tg-theme-text-color)',
-            background: 'var(--tg-theme-secondary-bg-color)'
+            zIndex: 10,
+            marginTop: '0.25rem',
+            border: '1px solid var(--support-border)',
+            borderRadius: '4px',
+            overflow: 'hidden',
+            boxShadow: '0 6px 18px rgba(0, 0, 0, 0.18)',
+            fontFamily: 'inherit',
+            fontSize: '1rem',
+            color: 'var(--support-text)',
+            background: 'var(--support-surface)'
+        }),
+        menuList: (provided) => ({
+            ...provided,
+            padding: 0
         }),
         singleValue: (provided) => ({
             ...provided,
-            fontFamily: 'Arial',
-            fontSize: '16px',
-            color: 'var(--tg-theme-text-color)',
-            background: 'var(--tg-theme-secondary-bg-color)'
+            color: 'var(--support-text)'
+        }),
+        placeholder: (provided) => ({
+            ...provided,
+            color: 'var(--support-muted)'
         }),
         option: (provided, state) => ({
             ...provided,
-            fontFamily: 'Arial',
-            fontSize: '16px',
-            color: 'var(--tg-theme-text-color)',
-            backgroundColor: state.isSelected ? 'var(--tg-theme-button-color)' : 'var(--tg-theme-secondary-bg-color)',
-            '&:hover': {
-                backgroundColor: '#70939e',
-                color: 'var(--tg-theme-text-color)'
+            padding: '0.75rem',
+            cursor: 'pointer',
+            color: state.isSelected ? 'var(--support-on-accent)' : 'var(--support-text)',
+            backgroundColor: state.isSelected
+                ? 'var(--support-accent)'
+                : state.isFocused
+                    ? 'var(--support-accent-soft)'
+                    : 'var(--support-surface)',
+            '&:active': {
+                backgroundColor: 'var(--support-accent-soft)'
             }
         }),
         input: (provided) => ({
             ...provided,
-            color: 'var(--tg-theme-text-color)' 
+            color: 'var(--support-text)'
         })
     };
 
     return (
         <div className='updateSupportForm'>
+            <div className='update-support-form-logo'>
+                <img src={`${process.env.PUBLIC_URL}/logo.svg`} alt='' />
+                <span>Support</span>
+            </div>
             <div className='update-support-form-item'>
                 <p>{translation('title')}</p>
                 <textarea
@@ -245,6 +310,18 @@ const UpdateSupportForm = () => {
                         <i className="fa-solid fa-pen-to-square fa-2x"></i>
                     </button>
                 </div>
+            </div>
+            <div className='update-support-form-item'>
+                <p>{translation('project')}</p>
+                <Select
+                    className='update-support-form-select-control'
+                    value={project && { value: project.id, label: project.name }}
+                    onChange={handleProjectChange}
+                    options={projects && projects.map(project => ({ value: project.id, label: project.name }))}
+                    isSearchable={true}
+                    isClearable={true}
+                    styles={customSelectStyles}
+                />
             </div>
             <div className='update-support-form-item'>
                 <p>{translation('caseType')}</p>

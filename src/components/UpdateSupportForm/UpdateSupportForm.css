@@ -1,61 +1,154 @@
 .updateSupportForm {
     display: flex;
-    align-items: center;
-    height: 100vh;
     flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    min-height: 100vh;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    background: var(--support-bg);
+    color: var(--support-text);
 }
 
 .updateSupportForm p {
-    color: var(--tg-theme-hint-color);
+    margin: 0 0 0.35rem;
+    color: var(--support-muted);
+    font-size: 0.92rem;
+    line-height: 1.25;
+}
+
+.update-support-form-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 0.35rem;
+  padding: 0.5rem 0 0.75rem;
+}
+
+.update-support-form-logo img {
+  display: block;
+  width: min(100%, 20rem);
+  max-height: 5.5rem;
+  object-fit: contain;
+}
+
+.update-support-form-logo span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.6rem;
+  padding: 0 0.75rem;
+  border: 1px solid rgba(103, 58, 183, 0.28);
+  border-radius: 999px;
+  color: var(--support-accent);
+  background: var(--support-accent-soft);
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 .update-support-form-item {
-  margin-top: 10px;
+  width: 100%;
+  margin-top: 0;
   display: flex;
   flex-direction: column;
 }
 
-.update-support-form-control {
-    width: 300px;
-    height: 40px;
-    font-size: 16px;
-    font-family: 'Arial';
-    padding: 5px;
-    color: var(--tg-theme-text-color);
-    background: var(--tg-theme-secondary-bg-color);
+.update-support-form-control,
+.update-support-form-text {
+    width: 100%;
+    min-height: 2.85rem;
+    border: 1px solid var(--support-border);
+    border-radius: 4px;
+    outline: none;
+    font-size: 1rem;
+    line-height: 1.35;
+    font-family: inherit;
+    padding: 0.75rem;
+    color: var(--support-text);
+    background: var(--support-surface);
+    transition: border-color 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
 }
 
 .update-support-form-select-control {
-  width: 300px;
-  height: 40px;
-  font-size: 16px;
-  color: var(--tg-theme-text-color);
-  background: var(--tg-theme-secondary-bg-color);
+  width: 100%;
+  font-size: 1rem;
+  color: var(--support-text);
+}
+
+textarea.update-support-form-control {
+  min-height: 5.75rem;
+  resize: vertical;
 }
 
 .update-support-form-text {
-  width: 300px;
-  font-size: 16px;
-  font-family: 'Arial';
-  padding: 5px;
-  color: var(--tg-theme-text-color);
-  background: var(--tg-theme-secondary-bg-color);
+  min-height: 10rem;
+  resize: vertical;
+}
+
+.update-support-form-control:focus,
+.update-support-form-text:focus {
+  border-color: var(--support-accent);
+  box-shadow: 0 0 0 1px var(--support-accent);
+}
+
+.update-support-form-control::placeholder,
+.update-support-form-text::placeholder {
+  color: var(--support-muted);
+  opacity: 1;
 }
 
 .input-button-container {
   display: flex;
-  width: 300px;
-  height: 40px;
-  font-size: 16px;
+  width: 100%;
+  min-height: 2.85rem;
+  font-size: 1rem;
 }
 
 .input-button-container input {
-  margin-right: 5px;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-right: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .input-button-container button {
-  border: none;
+  flex: 0 0 3rem;
+  width: 3rem;
+  border: 1px solid var(--support-border);
+  border-left: none;
+  border-radius: 0 4px 4px 0;
   cursor: pointer;
-  color: var(--tg-theme-hint-color);
-  background: var(--tg-theme-bg-color);
+  color: var(--support-accent);
+  background: var(--support-surface);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 120ms ease, background-color 120ms ease, border-color 120ms ease;
+}
+
+.input-button-container button:active,
+.input-button-container button:focus-visible {
+  color: var(--support-accent);
+  background: var(--support-accent-soft);
+  border-color: var(--support-accent);
+  outline: none;
+}
+
+.input-button-container button .fa-2x {
+  font-size: 1.15rem;
+}
+
+@media (min-width: 520px) {
+  .updateSupportForm {
+    max-width: 520px;
+    margin: 0 auto;
+  }
 }
